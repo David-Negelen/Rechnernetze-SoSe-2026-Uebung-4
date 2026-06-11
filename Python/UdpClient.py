@@ -46,6 +46,8 @@ def main():
     print("Name:", own_name)
     print("Port:", own_port)
 
+    contacts = {}  # name -> (ip, port)
+
     threading.Thread(
         target=receiver,
         args=(sock,),
@@ -67,20 +69,57 @@ def main():
             parts = input_line.split(" ", 3)
 
             if len(parts) != 4:
-                print(
-                    "Usage: send <ip> <port> <message>"
-                )
+                print("Usage: send <ip> <port> <message>")
                 continue
 
             ip = parts[1]
             port = int(parts[2])
             message = parts[3]
 
-            final_msg = (
-                f"{own_name}: {message}"
-            ).encode("utf-8")
+            sock.sendto(f"{own_name}: {message}".encode("utf-8"), (ip, port))
 
-            sock.sendto(final_msg, (ip, port))
+        # =====================================================
+        # REGISTER
+        # =====================================================
+
+        elif input_line.startswith("register "):
+
+            parts = input_line.split(" ", 3)
+
+            if len(parts) != 4:
+                print("Usage: register <name> <ip> <port>")
+                continue
+
+            reg_name, reg_ip, reg_port = parts[1], parts[2], int(parts[3])
+            contacts[reg_name] = (reg_ip, reg_port)
+            print(f"{reg_name} registriert ({reg_ip}:{reg_port})")
+
+        # =====================================================
+        # CLIENTLIST
+        # =====================================================
+
+        elif input_line == "clientlist":
+
+            if not contacts:
+                print("Keine Clients registriert.")
+            else:
+                for n, (ip, port) in contacts.items():
+                    print(f"{n}: {ip}:{port}")
+
+        # =====================================================
+        # SENDALL
+        # =====================================================
+
+        elif input_line.startswith("sendall "):
+
+            message = input_line[8:]
+
+            if not contacts:
+                print("Keine Clients registriert.")
+            else:
+                msg = f"{own_name}: {message}".encode("utf-8")
+                for n, (ip, port) in contacts.items():
+                    sock.sendto(msg, (ip, port))
 
         # =====================================================
         # EXIT
@@ -98,8 +137,11 @@ def main():
         else:
 
             print("Befehle:")
-            print("send <ip> <port> <message>")
-            print("exit")
+            print("  send <ip> <port> <message>")
+            print("  register <name> <ip> <port>")
+            print("  clientlist")
+            print("  sendall <message>")
+            print("  exit")
 
 
 if __name__ == "__main__":

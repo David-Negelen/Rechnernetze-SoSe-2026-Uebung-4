@@ -1,0 +1,43 @@
+Aufgabe 2: CIDR
+
+
+a) 103.161.122.83/18
+
+103.161.122.83 ist die IP-Adresse, /18 ist die Präfixlänge und gibt an, dass die
+ersten 18 Bits der Adresse zum Netzanteil gehören. Die restlichen 14 Bits sind der
+Hostanteil.
+
+Subnetzmaske: 18 Einsen gefolgt von 14 Nullen:
+11111111.11111111.11000000.00000000 = 255.255.192.0
+
+Netzwerkadresse: IP AND Subnetzmaske (Host-Bits werden auf 0 gesetzt)
+103.161.122.83 AND 255.255.192.0 = 103.161.64.0
+
+Broadcastadresse: Netzwerkadresse mit allen Host-Bits auf 1 gesetzt
+103.161.64.0 -> Host-Bits auf 1 -> 103.161.127.255
+
+
+b) Subnetzmaske, Netzwerk- und Broadcastadresse
+
+(i) 172.16.45.200/20
+    Subnetzmaske:    255.255.240.0
+    Netzwerkadresse: 172.16.32.0
+    Broadcastadresse: 172.16.47.255
+
+(ii) 192.168.14.77/26
+    Subnetzmaske:    255.255.255.192
+    Netzwerkadresse: 192.168.14.64
+    Broadcastadresse: 192.168.14.127
+
+(iii) 10.55.201.19/13
+    Subnetzmaske:    255.248.0.0
+    Netzwerkadresse: 10.48.0.0
+    Broadcastadresse: 10.55.255.255
+
+
+c) Liegen 103.161.122.83/18 und 103.161.193.83/18 im selben Netz?
+
+Nein. Die Netzwerkadresse von 103.161.122.83/18 ist 103.161.64.0,
+die Netzwerkadresse von 103.161.193.83/18 ist 103.161.192.0.
+Da die Netzwerkadressen verschieden sind, liegen die beiden Adressen in
+unterschiedlichen Netzen.

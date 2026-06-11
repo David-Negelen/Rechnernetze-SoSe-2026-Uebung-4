@@ -1,0 +1,28 @@
+Aufgabe 4
+
+1. Unterschiedliche Nachrichtenformate (TCP)
+Der eigene TCP-Server erwartet beim Verbindungsaufbau das Format:
+    register <name>
+Andere Implementierungen nutzten teilweise andere Formate,
+z.B. nur den Namen direkt oder ein JSON-Objekt. Dadurch scheiterte
+die Registrierung.
+
+Idee: Ein einheitliches Protokoll im Voraus festlegen, z.B. immer
+"register <name>" als ersten Befehl nach dem Verbindungsaufbau.
+
+
+2: Zeilenenden (\n vs. \r\n)
+Manche Implementierungen (insbesondere in Java) senden Nachrichten mit
+\r\n als Zeilenende (Windows-Style), während die eigene Python-Implementierung
+nur \n erwartet. Das führt dazu, dass beim strip() ein \r übrig bleibt
+und Befehle wie "clientlist\r" nicht erkannt werden.
+
+Idee: Beim Parsen eingehender Nachrichten immer strip() verwenden
+
+
+3: kein gemeinsames Adressverzeichnis
+Im UDP-Chat müssen Empfänger manuell per "register" eingetragen werden.
+Kommilitonen, die die eigene IP-Adresse nicht kannten, konnten keine
+Verbindung herstellen.
+
+Idee: IP-Adressen und Ports vorher austauschen

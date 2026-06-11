@@ -1,0 +1,53 @@
+Aufgabe 1
+
+
+IPv4-Paket
+
+Capture: tcp_capture.pcap, Frame 1 -- Verbindung von 104.208.16.91 zu 192.168.178.152
+
+Version:              4
+Header Length:        20 bytes (IHL = 5)
+Type of Service:      0x02 (DSCP: CS0, ECN: ECT(0))
+Total Length:         1500 bytes
+Identification:       0xa0cb (41163)
+Flags:                0x2 -- Don't Fragment gesetzt, More Fragments nicht gesetzt
+Fragment Offset:      0
+Time to Live:         100
+Protocol:             6 (TCP)
+Header Checksum:      0x83e2
+Source Address:       104.208.16.91
+Destination Address:  192.168.178.152
+
+
+
+UDP-Paket
+
+Capture: udp_capture.pcapng, Frame 5 -- von 192.168.178.166 zu 192.168.178.255
+
+Source Port:       57904
+Destination Port:  59387
+Length:            50 bytes
+Checksum:          0xb7b0
+
+UDP hat nur 4 Felder und keinen Verbindungsaufbau, keine Sequenznummern und keine Flusskontrolle.
+
+
+
+TCP-Paket
+
+Capture: tcp_capture.pcap, Frame 1 -- Port 443 (HTTPS) zu Port 65503
+
+Source Port:          443
+Destination Port:     65503
+Sequence Number:      2571660028
+Acknowledgment Nr.:   1742734859
+Header Length:        32 bytes (inkl. Options)
+Flags:                0x010 -- ACK gesetzt
+Window Size:          16383 bytes
+Checksum:             0x72f4
+Urgent Pointer:       0
+Options:              NOP, NOP, Timestamps
+
+Im Vergleich zu UDP hat TCP deutlich mehr Felder: Sequenznummern für zuverlässige
+übertragung, Flags für den Verbindungsauf- und -abbau sowie eine Window Size für
+Flusskontrolle
